@@ -1,5 +1,5 @@
 float [] x, y, d, xx, yy; //d: 비율, xx: x축 증가량, yy: y축 증가량
-int state = 0, delay =0;
+int state = 0;
 void setup() {
   size(1000, 900);
   x = new float[12];
@@ -13,18 +13,18 @@ void setup() {
     d[i] = random(5, 10);
     xx[i] = random(3, 5);
     yy[i] = random(3, 5);
-  x[7] = 155; y[7] = 800; d[7] = 2;
-  x[11] = 155; y[11] = 850; d[11] = 5;
+  x[7] = 155; y[7] = 800; d[7] = 2; //곰 시작 좌표
+  x[11] = 155; y[11] = 850; d[11] = 5; //춘식이 시작 좌표
   }
 }
 void draw() {
   if (state == 0){
-    readyToStart();
-  } else if (state == 1) {  // 2. playing
+    readyToStart(); //start 화면
+  } else if (state == 1) {  //playing 화면
     playing();
-  } else if (state == 2){    //   3. gameover
+  } else if (state == 2){    //gmaeover 화면1
     gameOver1();
-  } else {    //   3. gameover
+  } else {    //gameover 화면2
     gameOver2();
   }
 }
@@ -40,7 +40,7 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  if (state == 0) { // 1. ready to restart
+  if (state == 0) { 
     if(mouseX>400 && mouseX<600 && 
        mouseY>350 && mouseY<450) state = 1;
   } else if (state != 1) { 
@@ -49,30 +49,7 @@ void mousePressed() {
 }
 
 void readyToStart(){
-  background(178, 235, 244);
-  fill(188, 36, 36); //트랙 색
-  stroke(178, 235, 244); //하늘 색
-  square(-2, 750, 1002); //트랙
-  strokeWeight(8); //사이 선 굵기
-  stroke(255); //사이 선 색
-  line(-2, 825, 1002, 825); //선 좌표
-  strokeWeight(1);
-  stroke(0);
-  fill(255);
-  rect(150, 750, 50, 900); //start 사각형
-  //for 사용하기 위해 4개 변수
-  for (float c=150; c<200; c+=20) {
-    for (float v=750; v<900; v+=20) {
-      fill(0); //첫 흑
-      square(c, v, 10);
-    }
-  }
-  for (float b=160; b<200; b+=20) {
-    for (float n=760; n<900; n+=20) {
-      fill(0); //두번째 흑
-      square(b, n, 10);
-    }
-  }
+  fu_background();
   fill(255,255,255);
   rect(400, 350, 200, 100);
   fill(0, 0, 0);
@@ -81,30 +58,7 @@ void readyToStart(){
 }
 
 void playing(){
-  background(178, 235, 244);
-  fill(188, 36, 36); //트랙 색
-  stroke(178, 235, 244); //하늘 색
-  square(-2, 750, 1002); //트랙
-  strokeWeight(8); //사이 선 굵기
-  stroke(255); //사이 선 색
-  line(-2, 825, 1002, 825); //선 좌표
-  strokeWeight(1);
-  stroke(0);
-  fill(255);
-  rect(150, 750, 50, 900); //start 사각형
-  //for 사용하기 위해 4개 변수
-  for (float c=150; c<200; c+=20) {
-    for (float v=750; v<900; v+=20) {
-      fill(0); //첫 흑
-      square(c, v, 10);
-    }
-  }
-  for (float b=160; b<200; b+=20) {
-    for (float n=760; n<900; n+=20) {
-      fill(0); //두번째 흑
-      square(b, n, 10);
-    }
-  }
+  fu_background();
   for (int i=0; i<12; i++) { //12개
     if (i < 3) { //돌아댕기는 토끼
       x[i] += xx[i];
@@ -157,37 +111,21 @@ void playing(){
   }
 }
 
-void gameOver1() {
-  background(178, 235, 244);
-  fill(188, 36, 36); //트랙 색
-  stroke(178, 235, 244); //하늘 색
-  square(-2, 750, 1002); //트랙
-  strokeWeight(8); //사이 선 굵기
-  stroke(255); //사이 선 색
-  line(-2, 825, 1002, 825); //선 좌표
-  strokeWeight(1);
-  stroke(0);
-  fill(255);
-  rect(150, 750, 50, 900); //start 사각형
-  //for 사용하기 위해 4개 변수
-  for (float c=150; c<200; c+=20) {
-    for (float v=750; v<900; v+=20) {
-      fill(0); //첫 흑
-      square(c, v, 10);
-    }
-  }
-  for (float b=160; b<200; b+=20) {
-    for (float n=760; n<900; n+=20) {
-      fill(0); //두번째 흑
-      square(b, n, 10);
-    }
-  }
+void gameOver1() { //곰이 이겼을 때 state
+  fu_background();
   fill(0, 0, 0);
   textSize(100);
   text("BEAR WIN!!", 300, 450);
 }
 
-void gameOver2() {
+void gameOver2() { //춘식이가 이겼을 때 state
+  fu_background();
+  fill(0, 0, 0);
+  textSize(100);
+  text("CHUNSIK WIN!!", 200, 450);
+}
+
+void fu_background(){
   background(178, 235, 244);
   fill(188, 36, 36); //트랙 색
   stroke(178, 235, 244); //하늘 색
@@ -212,7 +150,4 @@ void gameOver2() {
       square(b, n, 10);
     }
   }
-  fill(0, 0, 0);
-  textSize(100);
-  text("CHUNSIK WIN!!", 200, 450);
 }
